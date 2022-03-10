@@ -11,6 +11,9 @@ Class-based Query model:
 
 My tasks:
 - Testing
+  - Could use CI and test on the full Git repo
+  - Need a way to validate incoming JSON data (this is more Scott's realm)
+  - Mostly, we need to test that example query runs work as expected. 
 - Actual Query Runs
   - Folder Setup
   - Browser Setup
