@@ -19,8 +19,9 @@ My tasks:
   - Browser Setup
   - Query Run + Download
   - Browser Teardown
+  - **Question**: are the flags for "dev/prod/both" and "ohio/local/both" still active? should we deprecate these?
 - Binning it into daily runs (list of queries)
-- Need to secure the Username and Password
+- Need to secure the Username and Password (ENV variables seem like the best way to do this)
 - Setup:
     - Need to understand all the bash files – they are very repetitive.
 
