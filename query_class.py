@@ -1,6 +1,8 @@
 import os
-import datetime 
+import datetime
+import sched 
 import sys
+from xml.etree.ElementTree import QName
 
 sys.path.append('/home/rubix/Desktop/Project-Ducttape')
 import ducktape
@@ -29,10 +31,12 @@ class Query:
         self.base_name = base_name
         # This is of the form "lowercase_more_explicit_name"
         self.query_type = qtype
+        # This is the query function to be used. We haven't implemented this yet.
         self.parameters = parameters
         self.schedule = schedule
 
         # if this query is not scheduled in crontab, schedule it. 
+        self.schedule_query()
 
     def run(self):
         # Needs a date (for storage)
@@ -40,20 +44,23 @@ class Query:
 
         date = self.setup()
         # this has to return the date, so that we can use it in the dl_path in the query
-
+        
         # run the query here
-        # THIS IS A PLACEHOLDER
-        dlpath = '/home/rubix/Desktop/Project-Ducttape/data/pl_invent_mgmt/' + date + '/'
+
+        # example download path: 
+        # dlpath = '/home/rubix/Desktop/Project-Ducttape/data/pl_invent_mgmt/' + date + '/'
         # note: the dlpath is just rubix_tape_data_path + base_name + date
 
-        display, browser = ducktape.chrome_initialize(rubix_tape_data_path + self.base_name + date)
+        query_dlpath = rubix_tape_data_path + self.base_name + date
+
+        display, browser = ducktape.chrome_initialize(query_dlpath)
         # dl_path is not strictly necessary
         ducktape.fmis_login(browser)
         
         # here, we have to access some kind of dictionary of qtype:query function
-        ducktape.fmis_get_direct_query(browser, 'PL_INV_ITEM')
+        ducktape.fmis_get_direct_query(browser, self.qname)
 
-        ducktape.wait_for_file(dlpath)
+        ducktape.wait_for_file(query_dlpath)
         ducktape.chrome_close(display, browser)
 
         self.teardown(date)
@@ -72,15 +79,21 @@ class Query:
     def teardown(self, date):
         # need to change the file name to a new format. 
         # this changes it from the "old style" (uppercase) to the "new style" (lowercase)
-        os.rename(self.to_path(rubix_tape_data_path, self.base_name, date, self.qname) + '\_*.xlsx', 
-                  self.to_path(rubix_tape_data_path, self.base_name, date, self.qname) + '-' + date + '.xlsx')
+        query_path = self.to_path(rubix_tape_data_path, self.base_name, date, self.qname)
+
+        os.rename(query_path + '\_*.xlsx', 
+                  query_path + '-' + date + '.xlsx')
 
         # need to run rm_head.py (in rubix_tape_base_path)
         # this formats columns and sends the formatted file to the O drive 
 
-        # the db type and the location are deprecated (i'm pretty sure)
+        # we could copy the contents of rm_head to this script. 
+
+        # the db type and the location are deprecated
 
     def to_path(list_of_strings):
+        # converts 
+
         path_sep = '/'
 
         base_path = ''
