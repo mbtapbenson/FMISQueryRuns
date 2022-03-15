@@ -2,7 +2,8 @@ import os
 import datetime
 import sched 
 import sys
-from xml.etree.ElementTree import QName
+
+from query_scheduler import *
 
 sys.path.append('/home/rubix/Desktop/Project-Ducttape')
 import ducktape
@@ -16,14 +17,15 @@ rubix_tape_items_path = "/home/rubix/O_drive_mnt_pt/1_P&L_Division/Data_Analytic
 # the tape_itmes_path seems to be deprecated.
 
 class Query:
-    def __init__(self, dlpath, qname, base_name, qtype, parameters, schedule) -> None:
+    def __init__(self, dlpath, qname, base_name, qtype, parameters, schedule_filename) -> None:
         # Parameters for this:
         # - DL path
         # - Query Name (ex. PL_PO_ENCUMB)
         # - base name (ex. pl_invent_mgmt). This is used for file storage.
         # - Query type (ex. direct_query)
         # - Query Parameters (ex. date ranges)
-        # - Query Schedule
+        # - Query Schedule (a file containing which file to dump this query. each schedule file is 
+        # a different interval, for example, weekly.)
 
         self.dlpath = dlpath
         self.qname = qname
@@ -32,11 +34,19 @@ class Query:
         # This is of the form "lowercase_more_explicit_name"
         self.query_type = qtype
         # This is the query function to be used. We haven't implemented this yet.
+        # Command pattern?
+        # Baed on the JSON file, you would return a different version of the Query class (but still be able to run it).
+        # just call query.fetch()
         self.parameters = parameters
-        self.schedule = schedule
+        self.schedule_filename = schedule_filename
 
-        # if this query is not scheduled in crontab, schedule it. 
-        self.schedule_query()
+    def schedule_to_file(self, json_filename):
+        with open(self.schedule_filename, 'r') as f:
+            query_files = f.readlines()
+
+        if json_filename not in query_files:
+            with open(self.schedule_filename, 'a') as f:
+                f.write(self.json_filename)
 
     def run(self):
         # Needs a date (for storage)
