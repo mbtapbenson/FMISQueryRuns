@@ -62,18 +62,24 @@ class Query:
         # note: the dlpath is just rubix_tape_data_path + base_name + date
 
         query_dlpath = rubix_tape_data_path + self.base_name + date
+        
+        self.fetch(query_dlpath)
 
-        display, browser = ducktape.chrome_initialize(query_dlpath)
+        self.teardown(date)
+
+    def fetch(self, dlpath):
+        # This is inherited (and modified) by different query types. 
+        # For example, direct queries and parameterized queries have different fetch methods.
+
+        display, browser = ducktape.chrome_initialize(dlpath)
         # dl_path is not strictly necessary
         ducktape.fmis_login(browser)
-        
+
         # here, we have to access some kind of dictionary of qtype:query function
         ducktape.fmis_get_direct_query(browser, self.qname)
 
-        ducktape.wait_for_file(query_dlpath)
+        ducktape.wait_for_file(dlpath)
         ducktape.chrome_close(display, browser)
-
-        self.teardown(date)
 
     def setup(self):
         date = datetime.date.today().strftime("%m%d%Y-%H%M%S")

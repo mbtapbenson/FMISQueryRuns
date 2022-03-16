@@ -32,3 +32,7 @@ Could even do it at a web level – google form into a JSON. Add new Query.
 Crontab scheduling: 
 - We need to have a "run_from_file.py" running daily with the daily_runs file as an argument. 
 - This interval-level binning is handled from crontab. 
+
+Class Architecture:
+- Query
+    - Subquery (Direct queries, parameterized queries, etc.)
