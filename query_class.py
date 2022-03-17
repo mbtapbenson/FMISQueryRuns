@@ -1,9 +1,9 @@
 import os
 import datetime
-import sched 
 import sys
 
 from query_scheduler import *
+from rm_head import rm_head_function
 
 sys.path.append('/home/rubix/Desktop/Project-Ducttape')
 import ducktape
@@ -102,8 +102,8 @@ class Query:
 
         # need to run rm_head.py (in rubix_tape_base_path)
         # this formats columns and sends the formatted file to the O drive 
-
-        # we could copy the contents of rm_head to this script. 
+        rm_head_function(self.to_path([rubix_tape_data_path, self.base_name, date, self.qname + '-' + date + '.xlsx']), 
+                         self.to_path([rubix_tape_items_path, self.qname + '.xlsx']))
 
         # the db type and the location are deprecated
 
