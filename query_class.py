@@ -108,3 +108,33 @@ class Query:
             base_path += file + path_sep
         
         return base_path
+
+# Here, we implement the query subclasses:
+
+class ParameterizedQuery(Query):
+    def fetch(self, dlpath):
+        return super().fetch(dlpath)
+    
+class VendorsQuery(Query):
+    def fetch(self, dlpath):
+        return super().fetch(dlpath)
+
+class ParameterizedQueryTwoDates(Query):
+    def fetch(self, dlpath):
+        return super().fetch(dlpath)
+
+class ParameterizedQueryOneDates(Query):
+    def fetch(self, dlpath):
+        return super().fetch(dlpath)
+
+class DateLoopingQuery(Query):
+    def fetch(self, dlpath):
+        return super().fetch(dlpath)
+
+class DateLoopingQueryDuration(Query):
+    def fetch(self, dlpath):
+        return super().fetch(dlpath)
+
+class FilterFieldsInput(Query):
+    def fetch(self, dlpath):
+        return super().fetch(dlpath)
