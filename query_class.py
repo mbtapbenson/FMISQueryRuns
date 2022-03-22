@@ -2,7 +2,6 @@ import os
 import datetime
 import sys
 
-from query_scheduler import *
 from rm_head import rm_head_function
 
 sys.path.append('/home/rubix/Desktop/Project-Ducttape')
@@ -17,7 +16,7 @@ rubix_tape_items_path = "/home/rubix/O_drive_mnt_pt/1_P&L_Division/Data_Analytic
 # the tape_itmes_path seems to be deprecated.
 
 class Query:
-    def __init__(self, dlpath, qname, base_name, qtype, parameters, schedule_filename) -> None:
+    def __init__(self, dlpath, qname, base_name, qtype, parameters) -> None:
         # Parameters for this:
         # - DL path
         # - Query Name (ex. PL_PO_ENCUMB)
@@ -38,15 +37,6 @@ class Query:
         # Baed on the JSON file, you would return a different version of the Query class (but still be able to run it).
         # just call query.fetch()
         self.parameters = parameters
-        self.schedule_filename = schedule_filename
-
-    def schedule_to_file(self, json_filename):
-        with open(self.schedule_filename, 'r') as f:
-            query_files = f.readlines()
-
-        if json_filename not in query_files:
-            with open(self.schedule_filename, 'a') as f:
-                f.write(self.json_filename)
 
     def run(self):
         # Needs a date (for storage)

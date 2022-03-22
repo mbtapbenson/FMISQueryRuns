@@ -1,5 +1,6 @@
 import sys
 from query_class import *
+from parse_query import parse_query_from_json
 
 if not sys.argv[1]:
     raise ValueError('Please provide a file string as argument')

@@ -1,0 +1,7 @@
+{
+    "qname": "QUERY_NAME",
+    "base_name": "query_base_name",
+    "query_type": "direct_query",
+    "parameters": [45, 20, "3/22/22"],
+    "query_dlpath": "~/example/download/path"
+}
