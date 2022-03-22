@@ -53,23 +53,21 @@ class Query:
 
         query_dlpath = rubix_tape_data_path + self.base_name + date
         
-        self.fetch(query_dlpath)
-
-        self.teardown(date)
-
-    def fetch(self, dlpath):
-        # This is inherited (and modified) by different query types. 
-        # For example, direct queries and parameterized queries have different fetch methods.
-
-        display, browser = ducktape.chrome_initialize(dlpath)
+        # Create browser object
+        display, browser = ducktape.chrome_initialize(query_dlpath)
         # dl_path is not strictly necessary
         ducktape.fmis_login(browser)
 
         # here, we have to access some kind of dictionary of qtype:query function
-        ducktape.fmis_get_direct_query(browser, self.qname)
+        self.fetch(browser)
 
-        ducktape.wait_for_file(dlpath)
+        ducktape.wait_for_file(query_dlpath)
         ducktape.chrome_close(display, browser)
+
+        self.teardown(date)
+
+    def fetch(self, browser):
+        ducktape.fmis_get_direct_query(browser, self.qname)
 
     def setup(self):
         date = datetime.date.today().strftime("%m%d%Y-%H%M%S")
@@ -112,29 +110,29 @@ class Query:
 # Here, we implement the query subclasses:
 
 class ParameterizedQuery(Query):
-    def fetch(self, dlpath):
-        return super().fetch(dlpath)
+    def fetch(self, browser):
+        ducktape.fmis_get_parameterized_query(browser, self.qname)
     
 class VendorsQuery(Query):
-    def fetch(self, dlpath):
-        return super().fetch(dlpath)
+    def fetch(self, browser):
+        ducktape.fmis_vendors_query(browser, self.qname, *self.parameters)
 
 class ParameterizedQueryTwoDates(Query):
-    def fetch(self, dlpath):
-        return super().fetch(dlpath)
+    def fetch(self, browser):
+        ducktape.fmis_get_parameterized_query_2_dates(browser, self.qname, *self.parameters)
 
-class ParameterizedQueryOneDates(Query):
-    def fetch(self, dlpath):
-        return super().fetch(dlpath)
+class ParameterizedQueryOneDate(Query):
+    def fetch(self, browser):
+        ducktape.fmis_get_parameterized_query_1_date(browser, self.qname)
 
 class DateLoopingQuery(Query):
-    def fetch(self, dlpath):
-        return super().fetch(dlpath)
+    def fetch(self, browser):
+        ducktape.fmis_date_looping_query(browser, self.qname, *self.parameters)
 
 class DateLoopingQueryDuration(Query):
-    def fetch(self, dlpath):
-        return super().fetch(dlpath)
+    def fetch(self, browser):
+        ducktape.fmis_date_looping_query_time_duration(browser, self.qname, *self.parameters)
 
 class FilterFieldsInput(Query):
-    def fetch(self, dlpath):
-        return super().fetch(dlpath)
+    def fetch(self, browser):
+        ducktape.fmis_filter_fields_input(browser, self.qname, *self.parameters)

@@ -3,11 +3,11 @@ import sys
 import json
 from query_class import *
 
-query_type_dict = {"direct_query":Query.__init__,
+query_type_dict = {"direct_query": Query.__init__,
                     "parameterized_query": ParameterizedQuery.__init__,
                     "vendors_query": VendorsQuery.__init__, 
-                    "get_parameterized_query_2_dates": ParameterizedQueryTwoDates.__init__,
-                    "get_parameterized_query_1_date": ParameterizedQueryOneDates.__init__,
+                    "parameterized_query_2_dates": ParameterizedQueryTwoDates.__init__,
+                    "parameterized_query_1_date": ParameterizedQueryOneDate.__init__,
                     "date_looping_query": DateLoopingQuery.__init__,
                     "date_looping_query_time_duration": DateLoopingQueryDuration.__init__, 
                     "filter_fields_input": FilterFieldsInput.__init__
