@@ -2,7 +2,8 @@
     "qname": "QUERY_NAME",
     "base_name": "query_base_name",
     "query_type": "direct_query",
+    "start_date": "3/1/22",
+    "end_date": "3/2/22",
     "parameters": [45, 20, "3/22/22"],
-    "query_dlpath": "~/example/download/path",
-    "schedule": "weekly" 
+    "query_dlpath": "~/example/download/path"
 }
