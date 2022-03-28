@@ -89,3 +89,6 @@ for response in records_data:
     # checks if query name is either new or overriding a previous filename
     if (get_basename(response['Query Name']) not in target_dir_files) or ((get_basename(response['Query Name']) not in target_dir_files) and (response['Override Previous?'] == 'Yes')):
         process_new_query(response)
+
+
+# TODO: we need validation. Is there a list of valid query names that we could pull from FMIS?

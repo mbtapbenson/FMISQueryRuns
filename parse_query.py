@@ -21,7 +21,10 @@ def parse_query_from_json(filename):
     
     # Important parameter: query type. Using this, we can reference a dictionary of type:constructor. 
 
-    query_constructor = query_type_dict.get(query_json['query_type'])
+    if query_json['query_type'] not in query_type_dict:
+        raise Exception('No such query of type {} in backend. Try again.'.format(query_json['query_json']))
+    else:
+        query_constructor = query_type_dict.get(query_json['query_type'])
 
-    return query_constructor(query_json['query_dlpath'], query_json['qname'], query_json['base_name'], 
+        return query_constructor(query_json['query_dlpath'], query_json['qname'], query_json['base_name'], 
                             query_json['query_type'], query_json['parameters'])
